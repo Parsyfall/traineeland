@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/partials.css">
+    <link rel="stylesheet" href="/css/wallpaper.css">
+    <!-- <link rel="stylesheet" href="/css/style.css"> -->
+
+    <title>Document</title>
+
+</head>
+
+<body>
+    <header>
+        <%- include('../partials/header') %>
+    </header>
+
+    <main>
+        <div class="image">
+            <img src="/image/<%= item[0].link %>" alt="image?">
+        </div>
+        <div class="description">
+            <h2>
+                <%= item[0].title %>
+                    [<%= item[0].width %> x <%= item[0].height %>]
+            </h2>
+            <a class="download-button" href="/image/<%= item[0].link %>" download="image.png">Download</a>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+</body>
+
+</html>

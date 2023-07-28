@@ -1,0 +1,33 @@
+main {
+    margin: 0 1rem;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    /* display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-rows: masonry;
+    */
+}
+
+.content {
+    max-width: 400px;
+    background-color: white;
+    margin: 5px auto;
+    width: fit-content;
+    border: gray 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.content img {
+    width: 100%;
+    /* max-height: 300px; */
+}
+

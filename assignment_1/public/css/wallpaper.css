@@ -1,0 +1,43 @@
+.image {
+    width: 900px;
+}
+
+.image img {
+    max-width: 100%;
+}
+
+main {
+    min-height: 90vh;
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.image,
+.description {
+    margin: 1em
+}
+
+.download-button {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+}
+
+.download-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: #fff;
+}
+
+.download-button:active {
+    background-color: #003973;
+    border-color: #003973;
+    color: #fff;
+}
