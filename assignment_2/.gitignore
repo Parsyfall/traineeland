@@ -1,0 +1,7 @@
+# Ignore everithing
+*
+
+# Except
+!.gitignore
+!script.py
+!settings.json
