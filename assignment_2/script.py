@@ -7,7 +7,7 @@ import os
 
 def logStatus(msg):
     # open log file and append 
-    with open(os.path.join(os.path.dirname(__file__), os.path.relpath(data['log']['location'])), 'a') as log:
+    with open(os.path.join(os.path.dirname(__file__), os.path.expanduser(data['log']['location'])), 'a') as log:
         time = datetime.now().strftime('%Y-%m-%d %H:%M:%S\t')
         log.write(time +  msg + "\r\n")
 
@@ -15,6 +15,7 @@ def logStatus(msg):
 with open(os.path.dirname(__file__) + "/settings.json", 'r') as jsonfile:
     data = json.load(jsonfile)
 
+print(os.path.expanduser("~/log.txt"))
 
 target_dir = data['destination']
 

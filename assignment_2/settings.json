@@ -5,7 +5,7 @@
     ],
     "destination": "/home/parsyfall/Dev/assignment/assignment_2/dest/",
     "log": {
-        "location": "./backup.log",
+        "location": "~/backup.log",
         "max-backups": 3
     }
 }
