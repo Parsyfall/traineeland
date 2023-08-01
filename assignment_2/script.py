@@ -15,18 +15,23 @@ def logStatus(msg):
 with open(os.path.dirname(__file__) + "/settings.json", 'r') as jsonfile:
     data = json.load(jsonfile)
 
-print(os.path.expanduser("~/log.txt"))
 
 target_dir = data['destination']
 
 # set destination folder
-dest_fd = target_dir + datetime.now().strftime('Backup %Y-%m-%d %H:%M:%S')
+dest_fd = target_dir + datetime.now().strftime('Backup_%Y-%m-%d_%H:%M:%S')
 
 
 try:
     # copy files
     for dir in data['source']:
-        shutil.copytree(dir, dest_fd + "/" + os.path.basename(dir))
+        if(os.path.isdir(dir)):
+            shutil.copytree(dir, dest_fd + "/" + os.path.basename(dir))
+            continue
+
+        if(not os.path.exists(dest_fd + "/")):
+            os.makedirs(dest_fd + "/")
+        shutil.copy(dir, dest_fd + "/")
 
     # get all backup directories
     with os.scandir(target_dir) as it:
