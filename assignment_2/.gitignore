@@ -5,3 +5,4 @@
 !.gitignore
 !script.py
 !settings.json
+!runBackup.sh
