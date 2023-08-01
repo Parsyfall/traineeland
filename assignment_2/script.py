@@ -7,13 +7,14 @@ import os
 
 def logStatus(msg):
     # open log file and append 
-    with open(data['log']['location'], 'a') as log:
+    with open(os.path.join(os.path.dirname(__file__), os.path.relpath(data['log']['location'])), 'a') as log:
         time = datetime.now().strftime('%Y-%m-%d %H:%M:%S\t')
         log.write(time +  msg + "\r\n")
 
 # parse config file
-with open("settings.json", 'r') as jsonfile:
+with open(os.path.dirname(__file__) + "/settings.json", 'r') as jsonfile:
     data = json.load(jsonfile)
+
 
 target_dir = data['destination']
 
@@ -31,7 +32,7 @@ try:
         targest = [file.name for file in it if file.is_dir() and "Backup" in file.name ]
     
     # delete older backups
-    targest.sort()
+    targest.sort(reverse=True)
     for dir in targest[data['log']['max-backups']: ]:
         shutil.rmtree(target_dir + dir)
 
