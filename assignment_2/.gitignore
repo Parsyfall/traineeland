@@ -1,0 +1,9 @@
+# Ignore everithing
+*
+
+# Except
+!.gitignore
+!script.py
+!settings.json
+!runBackup.sh
+!readme.md

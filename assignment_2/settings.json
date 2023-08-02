@@ -1,0 +1,11 @@
+{
+    "source": [
+        "/home/parsyfall/Dev/assignment/assignment_2/source",
+        "/home/parsyfall/Dev/assignment/assignment_2/source2"
+    ],
+    "destination": "/home/parsyfall/Dev/assignment/assignment_2/dest/",
+    "log": {
+        "location": "~/backup.log",
+        "max-backups": 3
+    }
+}
