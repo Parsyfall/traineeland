@@ -1,13 +1,32 @@
 #!/bin/bash
-
+nonSTD=''
 minutes=*
 hour=*
 day_of_month=*
 month=*
 day_of_week=*
+path=''
 
-while [ ! -z $1 ]; do
+while [ $# -gt 0 ]; do
     case $1 in
+    '--non-std')
+        shift
+        if [ -z $1 ]; then
+            echo "No value was specified"
+            echo "--non-std mus be followed by a non standart 'nickname'"
+        fi
+        nonSTD=$1
+        break
+        ;;
+    '--path')
+        if [ -z $1 ]; then
+            echo "No value was specified for path"
+            echo "--path mus be followed by the absolute path to the script"
+            exit -1
+        fi
+        path=$1
+        shift
+        ;;
     '-dw')
         shift
         if [ -z $1 ]; then
@@ -77,15 +96,25 @@ while [ ! -z $1 ]; do
     esac
 done
 
-if [[ $minutes = '*' && $hour = '*' &&
-    $day_of_month = '*' && $month = '*' && $day_of_week = '*' ]]; then
+if [[ $minutes = '*' && $hour = '*' && $day_of_month = '*' &&
+    $month = '*' && $day_of_week = '*' && -z $nonSTD ]]; then
     echo "No arguments were specified. Script will run every minute"
 fi
 
-echo "$minutes $hour $day_of_month $month $day_of_week /usr/bin/python3 /home/parsyfall/Dev/assignment/assignment_2/script.py"
-(
-    crontab -l
-    echo "$minutes $hour * * * /usr/bin/python3 /home/parsyfall/Dev/assignment/assignment_2/script.py"
-) | crontab -
-# (crontab -l ; echo "${minute} ${hour} * * * /usr/bin/python3 /home/parsyfall/Dev/assignment/assignment_2/script.py >> /home/parsyfall/Dev/assignment/assignment_2/backup.log 2>&1")| crontab -
-# python3 /home/parsyfall/Dev/assignment/assignment_2/script.py
+if [ -z $path ]; then
+    echo "Mandatory argument '--path' wasn't specified, aborting..."
+    exit -1
+fi
+
+if [ ! -z $nonSTD ]; then
+    (
+        crontab -l
+        echo "$nonSTD /usr/bin/python3 $path"
+    ) | crontab -
+else
+    (
+        crontab -l
+        echo "$minutes $hour $day_of_month $month $day_of_week /usr/bin/python3 $path"
+    ) | crontab -
+
+fi
