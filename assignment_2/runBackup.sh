@@ -96,14 +96,14 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-if [[ $minutes = '*' && $hour = '*' && $day_of_month = '*' &&
-    $month = '*' && $day_of_week = '*' && -z $nonSTD ]]; then
-    echo "No arguments were specified. Script will run every minute"
-fi
-
 if [ -z $path ]; then
     echo "Mandatory argument '--path' wasn't specified, aborting..."
     exit -1
+fi
+
+if [[ $minutes = '*' && $hour = '*' && $day_of_month = '*' &&
+    $month = '*' && $day_of_week = '*' && -z $nonSTD ]]; then
+    echo "No arguments were specified. Script will run every minute"
 fi
 
 if [ ! -z $nonSTD ]; then
