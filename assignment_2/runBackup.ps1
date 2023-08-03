@@ -1,43 +1,44 @@
-#!/bin/bash
+` # \
+# PowerShell Param statement : every line must end in #\ except the last line must with <#\
+# And, you can't use backticks in this section        #\
+param (  #\
+    # Path to script  #\
+    [Parameter(Mandatory)]  #\
+    [string] $path,  #\
+      #\
+    # Daily  #\
+    [Parameter()]  #\
+    [switch] $daily,  #\
+      #\
+    # Minutes  #\
+    [Parameter()]  #\
+    [int] $m,  #\
+      #\
+    # Hour  #\
+    [Parameter()]  #\
+    [int] $h,  #\
+  #\
+    # At which day interval to run, default 1 (every day)  #\
+    [Parameter()]  #\
+    [int] $dayInterval,  #\
+  #\
+    # Weelky  #\
+    [Parameter()]  #\
+    [switch] $weekly,  #\
+      #\
+    # In which days to run, by default on Mondays  #\
+    [Parameter()]  #\
+    [string[]] $daysOfWeek,  #\
+  #\
+    # At which week interval to run, default 1 (each week)  #\
+    [Parameter()]  #\
+    [int] $weekInterval = 1  #\
+)<#\
 
-param ( 
-    # Path to script 
-    [Parameter(Mandatory)] 
-    [string] $path, 
-     
-    # Daily 
-    [Parameter()] 
-    [switch] $daily, 
-     
-    # Minutes 
-    [Parameter()] 
-    [int] $m, 
-     
-    # Hour 
-    [Parameter()] 
-    [int] $h, 
- 
-    # At which day interval to run, default 1 (every day) 
-    [Parameter()] 
-    [int] $dayInterval, 
- 
-    # Weelky 
-    [Parameter()] 
-    [switch] $weekly, 
-     
-    # In which days to run, by default on Mondays 
-    [Parameter()] 
-    [string[]] $daysOfWeek, 
- 
-    # At which week interval to run, default 1 (each week) 
-    [Parameter()] 
-    [int] $weekInterval = 1 
-)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `
+#vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+# Bash Start ------------------------------------------------------------
 
-
-echo @'
-' > /dev/null
-# Bash part begining
 
 nonSTD=''
 minutes=*
@@ -161,14 +162,14 @@ else
 
 fi
 exit 0 
+
+
+# Bash End --------------------------------------------------------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 echo > /dev/null <<"out-null" ###
 '@ | out-null
-
-# Bash part end
-
-
-#Windows part beginning
-
+#vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+# Powershell Start ----------------------------------------------------#>
 
 if ($weekly -and $daily) {
     Write-Error "-weekly and -daily arguments are incompatible, use only one of them"
@@ -186,9 +187,6 @@ if (!$PSBoundParameters.ContainsKey('dayInterval')) {
     $dayInterval = 1
 }
 
-
-
-
 $time = Get-Date -UFormat %R -Minute $m -Hour $h    # Display time in 24h format
 $daysOfWeek = $daysOfWeek -split ','    # Split string to array
 
@@ -203,3 +201,4 @@ $action = New-ScheduledTaskAction -Execute python3 -Argument $path
 
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Periodicaly back up files"
 
+# Powershell End -------------------------------------------------------
