@@ -1,44 +1,9 @@
 #!/bin/bash
 
-param ( #\
-    # Path to script #\
-    [Parameter(Mandatory)] #\
-    [string] $path, #\
-     #\
-    # Daily #\
-    [Parameter()] #\
-    [switch] $daily, #\
-     #\
-    # Minutes #\
-    [Parameter()] #\
-    [int] $m = 0, #\
-     #\
-    # Hour #\
-    [Parameter()] #\
-    [int] $h = 0, #\
- #\
-    # At which day interval to run, default 1 (every day) #\
-    [Parameter()] #\
-    [int] $dayInterval = 1, #\
- #\
-    # Weelky #\
-    [Parameter()] #\
-    [switch] $weekly, #\
-     #\
-    # In which days to run, by default on Mondays #\
-    [Parameter()] #\
-    [string[]] $daysOfWeek = @("Monday"), #\
- #\
-    # At which week interval to run, default 1 (each week) #\
-    [Parameter()] #\
-    [int] $weekInterval = 1 #\
-) #\
- <#\
- 
-
+echo @'
+' > /dev/null
 # Bash part begining
-echo --% >/dev/null;: '  | out-null
-<#'
+
 nonSTD=''
 minutes=*
 hour=*
@@ -48,8 +13,18 @@ day_of_week=*
 path=''
 
 while [ $# -gt 0 ]; do
-    case $1 in
-    '--non-std')
+    if [ $1 == "--path" ]; then
+        if [ -z $1 ]; then
+            echo "No value was specified for path"
+            echo "--path mus be followed by the absolute path to the script"
+            exit -1
+        fi
+        path=$2
+        shift
+        shift
+        continue
+    fi
+    if [ $1 == '--non-std' ]; then
         shift
         if [ -z $1 ]; then
             echo "No value was specified"
@@ -57,16 +32,8 @@ while [ $# -gt 0 ]; do
         fi
         nonSTD=$1
         break
-        ;;
-    '--path')
-        if [ -z $1 ]; then
-            echo "No value was specified for path"
-            echo "--path mus be followed by the absolute path to the script"
-            exit -1
-        fi
-        path=$1
-        shift
-        ;;
+    fi
+    case $1 in
     '-dw')
         shift
         if [ -z $1 ]; then
@@ -158,12 +125,48 @@ else
     ) | crontab -
 
 fi
-exit 0 #>
+exit 0 
+echo > /dev/null <<"out-null" ###
+'@ | out-null
 
 # Bash part end
 
-# Windows part beginning
 
+#Windows part beginning
+
+param ( 
+    # Path to script 
+    [Parameter(Mandatory)] 
+    [string] $path, 
+     
+    # Daily 
+    [Parameter()] 
+    [switch] $daily, 
+     
+    # Minutes 
+    [Parameter()] 
+    [int] $m = 0, 
+     
+    # Hour 
+    [Parameter()] 
+    [int] $h = 0, 
+ 
+    # At which day interval to run, default 1 (every day) 
+    [Parameter()] 
+    [int] $dayInterval = 1, 
+ 
+    # Weelky 
+    [Parameter()] 
+    [switch] $weekly, 
+     
+    # In which days to run, by default on Mondays 
+    [Parameter()] 
+    [string[]] $daysOfWeek = @("Monday"), 
+ 
+    # At which week interval to run, default 1 (each week) 
+    [Parameter()] 
+    [int] $weekInterval = 1 
+)
 
 if ($weekly -and $daily) {
     Write-Error "-weekly and -daily arguments are incompatible, use only one of them"
@@ -183,3 +186,4 @@ elseif ($weekly) {
 $action = New-ScheduledTaskAction -Execute python3 -Argument $path
 
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Backup Script" -Description "Periodicaly back up files"
+
