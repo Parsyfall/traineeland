@@ -5,5 +5,5 @@
 !.gitignore
 !script.py
 !settings.json
-!runBackup.sh
+!runBackup.ps1
 !readme.md
