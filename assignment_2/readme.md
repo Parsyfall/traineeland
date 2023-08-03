@@ -92,12 +92,12 @@ Arguments that script can process are (order is irrelevant):
 - `-m` followed by a number between 0 and 59 that represent minute, if not specified will be set to 0.
 - `-h` followed by number between 1 and 23 that represent hour, if not specified will be set to 0.
 - `daily` don't require a value. Tell the script that task should run on a daily basis.
-    - `daysOfWeek` specifies the interval between the days in the schedule. An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule. Throw an error unless `daily` argument is specified.
+    - `dayInterval` specifies the interval between the days in the schedule. An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule. If not specified will be set to 1. Throw an error unless `daily` argument is specified.
 - `weekly` don't require a value. Tell the script that task should run on a daily 
     - `weekInterval` specifies the interval between the weeks in the schedule. An interval of 1 produces a weekly schedule. An interval of 2 produces an every-other week schedule. Throw an error unless `weekly` agument is specified.
-    - `daysOfWeek` specifies an array of the days of the week on which Task Scheduler runs the task. Accepted values (comma separated, without spaces): `Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday`. Throw an error unless `weekly` agument is specified.
+    - `daysOfWeek` specifies an array of the days of the week on which Task Scheduler runs the task. Accepted values (comma separated, without spaces): `Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday`. If not specified will be set to `Monday`. Throw an error unless `weekly` agument is specified.
 
-In comparation to Linux version, script can't explicitly run the task monthly, so if you want to run it montly youl have to figure out somehow, or whait for me to make that  ¯\\\_(ツ)_/¯
+In comparation to Linux version, windows script can't explicitly run the task monthly, so if you want to run it monthly you'll have to figure It out by yourself, or whait for me to make It.  ¯\\\_(ツ)_/¯
 
 [^1]: Double quoted and comma separated values
 [^2]: Double quoted value, keep the comma at the end
