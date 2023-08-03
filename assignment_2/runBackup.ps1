@@ -1,5 +1,40 @@
 #!/bin/bash
 
+param ( 
+    # Path to script 
+    [Parameter(Mandatory)] 
+    [string] $path, 
+     
+    # Daily 
+    [Parameter()] 
+    [switch] $daily, 
+     
+    # Minutes 
+    [Parameter()] 
+    [int] $m, 
+     
+    # Hour 
+    [Parameter()] 
+    [int] $h, 
+ 
+    # At which day interval to run, default 1 (every day) 
+    [Parameter()] 
+    [int] $dayInterval, 
+ 
+    # Weelky 
+    [Parameter()] 
+    [switch] $weekly, 
+     
+    # In which days to run, by default on Mondays 
+    [Parameter()] 
+    [string[]] $daysOfWeek, 
+ 
+    # At which week interval to run, default 1 (each week) 
+    [Parameter()] 
+    [int] $weekInterval = 1 
+)
+
+
 echo @'
 ' > /dev/null
 # Bash part begining
@@ -134,39 +169,6 @@ echo > /dev/null <<"out-null" ###
 
 #Windows part beginning
 
-param ( 
-    # Path to script 
-    [Parameter(Mandatory)] 
-    [string] $path, 
-     
-    # Daily 
-    [Parameter()] 
-    [switch] $daily, 
-     
-    # Minutes 
-    [Parameter()] 
-    [int] $m, 
-     
-    # Hour 
-    [Parameter()] 
-    [int] $h, 
- 
-    # At which day interval to run, default 1 (every day) 
-    [Parameter()] 
-    [int] $dayInterval, 
- 
-    # Weelky 
-    [Parameter()] 
-    [switch] $weekly, 
-     
-    # In which days to run, by default on Mondays 
-    [Parameter()] 
-    [string[]] $daysOfWeek, 
- 
-    # At which week interval to run, default 1 (each week) 
-    [Parameter()] 
-    [int] $weekInterval = 1 
-)
 
 if ($weekly -and $daily) {
     Write-Error "-weekly and -daily arguments are incompatible, use only one of them"
@@ -183,9 +185,7 @@ if (!$PSBoundParameters.ContainsKey('h')) {
 if (!$PSBoundParameters.ContainsKey('dayInterval')) {
     $dayInterval = 1
 }
-if ($daysOfWeek.Count -eq 0) {
-    $daysOfWeek = @("Monday")
-}
+
 
 
 
