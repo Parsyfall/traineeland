@@ -145,15 +145,15 @@ param (
      
     # Minutes 
     [Parameter()] 
-    [int] $m = 0, 
+    [int] $m, 
      
     # Hour 
     [Parameter()] 
-    [int] $h = 0, 
+    [int] $h, 
  
     # At which day interval to run, default 1 (every day) 
     [Parameter()] 
-    [int] $dayInterval = 1, 
+    [int] $dayInterval, 
  
     # Weelky 
     [Parameter()] 
@@ -161,7 +161,7 @@ param (
      
     # In which days to run, by default on Mondays 
     [Parameter()] 
-    [string[]] $daysOfWeek = @("Monday"), 
+    [string[]] $daysOfWeek, 
  
     # At which week interval to run, default 1 (each week) 
     [Parameter()] 
@@ -172,6 +172,22 @@ if ($weekly -and $daily) {
     Write-Error "-weekly and -daily arguments are incompatible, use only one of them"
     exit -1
 }
+
+# Set default values
+if (!$PSBoundParameters.ContainsKey('m')) {
+    $m = 0
+}
+if (!$PSBoundParameters.ContainsKey('h')) {
+    $h = 0
+}
+if (!$PSBoundParameters.ContainsKey('dayInterval')) {
+    $dayInterval = 1
+}
+if ($daysOfWeek.Count -eq 0) {
+    $daysOfWeek = @("Monday")
+}
+
+
 
 $time = Get-Date -UFormat %R -Minute $m -Hour $h    # Display time in 24h format
 $daysOfWeek = $daysOfWeek -split ','    # Split string to array
