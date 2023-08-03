@@ -26,7 +26,7 @@ The script has two vital elements that must be kept in the same folder:
 - Script itself ~~obviously isn't it?~~ (script.py)
 - Settings file (settings.json)
 
-These files are closely related, python file does the necessary operation based on settings and paths written on JSON file, which should look something like this: 
+These files are closely related, python file does the necessary operation based on settings and paths written in JSON file, which should look something like this: 
 ```
 {
 	"source": [
@@ -44,7 +44,7 @@ These files are closely related, python file does the necessary operation based 
 	}
 }
 ```
-<p align="center"><i><span style="color: red">Take in consideration that the above paths are just examples, please change them before use</span></i></p>
+<p align="center"><i>Take in consideration that the above paths are just examples, please change them before use</i></p>
 
 Now let's dive in what I meant with these fields.
 `source` is a multi value parameter (a.k.a vector), here are specified files/folders to be backed up (absolute paths[^1]). Dummy example: `/home/<username>/Documents/`
