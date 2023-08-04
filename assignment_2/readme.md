@@ -4,10 +4,11 @@
 _A basic python script designed to periodically backup some files for you._
 
 ## Getting started
-Script was designed and tested on Ubuntu, so momentary it might not work correctly on other Linux distribution or Windows
+Script was originaly designed for Ubuntu only, but now It should work fine on Windows too, and probably on other Debian Linux distros.
+
 #### Requirements
 - Python 3.10.12
-- Bash
+- Bash/Powershell
 #### Installation
 Clone locally on your machine and run installation script.
 ```
@@ -92,12 +93,14 @@ Arguments that script can process are (order is irrelevant):
 - `-m` followed by a number between 0 and 59 that represent minute, if not specified will be set to 0.
 - `-h` followed by number between 1 and 23 that represent hour, if not specified will be set to 0.
 - `daily` don't require a value. Tell the script that task should run on a daily basis.
-    - `dayInterval` specifies the interval between the days in the schedule. An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule. If not specified will be set to 1. Throw an error unless `daily` argument is specified.
+    - `dayInterval` specifies the interval between the days in the schedule. An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule. Throw an error unless `daily` argument is specified.
 - `weekly` don't require a value. Tell the script that task should run on a daily 
     - `weekInterval` specifies the interval between the weeks in the schedule. An interval of 1 produces a weekly schedule. An interval of 2 produces an every-other week schedule. Throw an error unless `weekly` agument is specified.
     - `daysOfWeek` specifies an array of the days of the week on which Task Scheduler runs the task. Accepted values (comma separated, without spaces): `Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday`. If not specified will be set to `Monday`. Throw an error unless `weekly` agument is specified.
 
-In comparation to Linux version, windows script can't explicitly run the task monthly, so if you want to run it monthly you'll have to figure It out by yourself, or whait for me to make It.  ¯\\\_(ツ)_/¯
+**Important:** `daily` and `weekly` arguments are mandatory and mutually exclusive, which means that script won't work if neither or both of them are specified. For the script to work correctly you must specify one, and only one, of these two.
+
+In comparation to Linux version, script can't explicitly run the task monthly, so if you want to run it montly youl have to figure out somehow, or wait for me to make that  ¯\\\_(ツ)_/¯
 
 [^1]: Double quoted and comma separated values
 [^2]: Double quoted value, keep the comma at the end
