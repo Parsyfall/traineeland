@@ -139,7 +139,7 @@ Arguments that script can process are (order is irrelevant):
 - `-h` followed by number between 1 and 23 that represent hour, if not specified will be set to 0.
 - `daily` don't require a value. Tell the script that task should run on a daily basis.
     - `dayInterval` specifies the interval between the days in the schedule. An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule. Throw an error unless `daily` argument is specified.
-- `weekly` don't require a value. Tell the script that task should run on a daily 
+- `weekly` don't require a value. Tell the script that task should run on a weekly basis.
     - `weekInterval` specifies the interval between the weeks in the schedule. An interval of 1 produces a weekly schedule. An interval of 2 produces an every-other week schedule. Throw an error unless `weekly` agument is specified.
     - `daysOfWeek` specifies an array of the days of the week on which Task Scheduler runs the task. Accepted values (comma separated, without spaces): `Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday`. If not specified will be set to `Monday`. Throw an error unless `weekly` agument is specified.
 
