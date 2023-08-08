@@ -19,7 +19,7 @@ with open(os.path.dirname(__file__) + "/settings.json", 'r') as jsonfile:
 target_dir = data['destination']
 
 # set destination folder
-dest_fd = target_dir + datetime.now().strftime('Backup_%Y-%m-%d_%H:%M:%S')
+dest_fd = target_dir + datetime.now().strftime('Backup_%Y-%m-%d_%H-%M-%S')
 
 
 try:
@@ -36,7 +36,7 @@ try:
     # get all backup directories
     with os.scandir(target_dir) as it:
         targest = [file.name for file in it if file.is_dir() and "Backup" in file.name ]
-    
+
     # delete older backups
     targest.sort(reverse=True)
     for dir in targest[data['log']['max-backups']: ]:
