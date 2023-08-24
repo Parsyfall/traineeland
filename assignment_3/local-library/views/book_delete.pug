@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    h1 #{title}: #{book.title}
+
+    p #[strong Author:]  #{book.author.name}
+    p #[strong Summary:]  #{book.summary}
+    p #[strong ISBN:]  #{book.isbn}
+    p #[strong Genre:]
+        if book.genre.length > 0
+            each val, index in book.genre
+                a(href=val.url) #{val.name}
+            if index < book.genre.length - 1
+                |,
+        else
+            p There are no genres for this book.
+
+    if bookinstances.length
+        p #[strong Delete the following instances before attempting to delete this book.]
+        div.content
+
+            h4 Instances
+
+            dl
+            each instance in bookinstances
+                dt
+                    p #[strong ID: ]
+                        a(href=instance.url) #{instance._id}
+                dd
+                    p #[strong Imprint:]  #{instance.imprint}
+                    p #[strong Due back:]  #{instance.due_back_formated}
+
+    else
+        p Do you really want to delete this Book?
+
+            form(method='POST' action='')
+                div.form-group
+                    input#bookid.form-control(type='hidden' name='bookid' required='true', value=book._id )
+
+                button.btn.btn-primary(type='submit') Delete
