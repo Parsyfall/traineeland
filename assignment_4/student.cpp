@@ -1,13 +1,14 @@
 #include "student.h"
 #include <iostream>
 
-Student::Student(std::string name, std::string rollNum, int age, double grade)
+Student::Student(std::string name, const std::string rollNum, int age,
+                 double grade)
     : name(name), rollNumber(rollNum), age(age), grade(grade) {}
 
 void Student::update(std::string newName, int newAge, double newGrade) {
-    name = newName;
-    age = newAge;
-    grade = newGrade;
+    this->name = newName;
+    this->age = newAge;
+    this->grade = newGrade;
 }
 
 std::string Student::toString() const {
