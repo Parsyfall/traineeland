@@ -1,5 +1,8 @@
-#include "student.h"
+#include "catalog.h"
+#include <chrono>
+#include <functional>
 #include <iostream>
+#include <random>
 #include <vector>
 
 #ifdef _WIN32
@@ -11,21 +14,18 @@
 Student createStudent();
 std::string getName();
 std::string getRollNumber();
+std::string generateRollNumber();
 int getAge();
 double getGrade();
-bool containsOnlyNumbers(std::string const &str);
 bool containsOnlyLetters(std::string const &str);
-std::vector<Student>::iterator
-findStudentByRollNumber(std::vector<Student> &vec,
-                        const std::string &rollNumber);
-void updateStudent(std::vector<Student> &vec);
-void deleteStudent(std::vector<Student> &vec);
+void deleteStudent(Catalog &cat);
+void updateStudent(Catalog &cat);
 
 int main() {
+    Catalog catalog = {Student("aaa", "111", 12, .34),
+                       Student("bbb", "222", 12, .34),
+                       Student("ccc", "333", 12, .34)};
 
-    std::vector<Student> student_v{Student("ion", "111", 12, .34),
-                                   Student("ion", "222", 12, .34),
-                                   Student("ion", "333", 12, .34)};
     char choice;
     while (true) {
         std::cout << "1. Add a new student"
@@ -40,26 +40,28 @@ int main() {
             // Add a new student
             system(CLEAR);
 
-            student_v.push_back(createStudent());
-
-            std::cout << "\nStudent successfully added" << std::endl;
+            if (catalog.insertStudent(createStudent())) {
+                std::cout << "\nStudent successfully added" << std::endl;
+            } else {
+                std::cout << "\nInsert failed, a student if this roll number "
+                             "already exists"
+                          << std::endl;
+            }
             break;
 
         case '2':
             // Display all students
-            for (auto it = student_v.begin(); it != student_v.end(); ++it) {
-                std::cout << it->toString() << '\n';
-            }
+            catalog.display();
             break;
 
         case '3':
             // Update student info
-            updateStudent(student_v);
+            updateStudent(catalog);
             break;
 
         case '4':
             // Delete student
-            deleteStudent(student_v);
+            deleteStudent(catalog);
             break;
 
         case '5':
@@ -79,49 +81,23 @@ int main() {
     }
 }
 
-std::vector<Student>::iterator
-findStudentByRollNumber(std::vector<Student> &vec,
-                        const std::string &rollNumber) {
-
-    auto it = vec.begin();
-    for (; it != vec.end(); ++it) {
-        if (it->getRollNumber() == rollNumber) {
-            return it;
-        }
-    }
-
-    return vec.end();
+void deleteStudent(Catalog &cat) {
+    std::string r_nmb = getRollNumber();
+    cat.removeStudent(r_nmb);
 }
 
-void deleteStudent(std::vector<Student> &vec) {
-    std::string rollNmb = getRollNumber();
+void updateStudent(Catalog &cat) {
+    // TODO: check if roll number exists before asking for name, age and grade
+    std::string r_nmb = getRollNumber();
 
-    auto iter = findStudentByRollNumber(vec, rollNmb);
-
-    if (iter == vec.end()) {
-        std::cout << "Student no found\n";
-        return; // Nothing to delete
+    std::string name = getName();
+    int age = getAge();
+    double grade = getGrade();
+    if (cat.updateStudent(r_nmb, name, age, grade)) {
+        std::cout << "\nUpdated successfully\n";
+    } else {
+        std::cout << "\nStudent with specified roll number was not found\n";
     }
-
-    vec.erase(iter);
-    std::cout << "Student deleted successfully\n";
-}
-
-void updateStudent(std::vector<Student> &vec) {
-    std::string rollNmb = getRollNumber();
-
-    auto iter = findStudentByRollNumber(vec, rollNmb);
-    if (iter == vec.end()) {
-        std::cout << "Student not found\n";
-        return;
-    }
-
-    std::cout << "Enter new student info:\n";
-    std::string newName = getName();
-    int newAge = getAge();
-    double newGrade = getGrade();
-
-    iter->update(newName, newAge, newGrade);
 }
 
 Student createStudent() { // Maybe create on Heap and return a pointer?
@@ -131,13 +107,49 @@ Student createStudent() { // Maybe create on Heap and return a pointer?
 
     name = getName();
 
-    rollNmb = getRollNumber();
+    rollNmb = generateRollNumber();
 
     age = getAge();
 
     grade = getGrade();
 
     return Student(name, rollNmb, age, grade);
+}
+
+bool containsOnlyLetters(std::string const &str) {
+    return str.find_first_not_of(
+               "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ") ==
+           std::string::npos;
+}
+
+std::string getRollNumber() {
+    std::string rollNmb;
+    std::cout << "\nEnter student's roll number: ";
+    std::cin >> rollNmb;
+    return rollNmb;
+}
+
+std::string generateRollNumber() {
+    // Obtain the current time
+    auto currentTime =
+        std::chrono::system_clock::now().time_since_epoch().count();
+
+    // Generate a random number
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 9999);
+    auto randomNumber = dist(gen);
+
+    // Combine time with random number
+    std::string combinedString =
+        std::to_string(currentTime) + std::to_string(randomNumber);
+
+    // Hash all of that
+    std::hash<std::string> hasher;
+    size_t hashedValue = hasher(combinedString);
+
+    // Return the unique roll number
+    return std::to_string(hashedValue);
 }
 
 std::string getName() {
@@ -153,29 +165,6 @@ std::string getName() {
         }
         return name;
     }
-}
-
-bool containsOnlyLetters(std::string const &str) {
-    return str.find_first_not_of(
-               "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ") ==
-           std::string::npos;
-}
-
-std::string getRollNumber() {
-    std::string rollNmb = "";
-    while (true) {
-        std::cout << "\nEnter student's roll number: ";
-        std::cin >> rollNmb;
-        if (containsOnlyNumbers(rollNmb)) {
-            return rollNmb;
-        }
-        std::cout << "\nRoll number must contain only digits [0-9], other "
-                     "characters are not allowed!!!\n";
-    }
-}
-
-bool containsOnlyNumbers(std::string const &str) {
-    return str.find_first_not_of("01234567890") == std::string::npos;
 }
 
 int getAge() {
