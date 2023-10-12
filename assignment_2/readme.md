@@ -26,7 +26,7 @@ git clone https://github.com/Parsyfall/traineeland.git
 
 ```
 
-Navigate to assignment_2 folder and run the bash script with desired arguments (see [documentation](running-as-a-system-task))
+Navigate to assignment_2 folder and run the bash script with desired arguments (see [documentation](Running-as-a-system-task))
 
 ```
 
